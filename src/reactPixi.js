@@ -11,6 +11,7 @@ const Rectangle = (props) => {
       g.lineStyle(2, `0x${props.color}`, 1);
       g.drawRect(props.x, props.y, props.width, props.height);
       g.endFill();
+      // g.click(() => console.log("Click"));
     },
     [props]
   );

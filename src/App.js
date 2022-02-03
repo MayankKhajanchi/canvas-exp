@@ -9,7 +9,7 @@ const App = () => {
   const [cropDetails, setCropDetails] = useState({});
   return (
     <>
-      <ReactPixi setCropDetails={setCropDetails} />
+      {/* <ReactPixi setCropDetails={setCropDetails} /> */}
       <SvgApproach setCropDetails={setCropDetails} />
       <ReactKonva setCropDetails={setCropDetails} />
       {Object.keys(cropDetails).length > 0 && (
