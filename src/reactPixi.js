@@ -1,7 +1,15 @@
 import React, { useState, useCallback } from "react";
 import "./App.css";
 import { Stage, Graphics } from "@inlet/react-pixi";
-import { sessionData } from "./mockData";
+import {
+  sessionData,
+  sessionData10,
+  sessionData20,
+  sessionData30,
+  sessionData40,
+  sessionData50,
+  sessionData60,
+} from "./mockData";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 const Rectangle = (props) => {
   const draw = useCallback(
@@ -62,7 +70,8 @@ const ReactPixi = ({ setCropDetails }) => {
     });
     setBoxData(data);
   };
-  const { images } = sessionData;
+  const { images } = sessionData20;
+
   return (
     <>
       <div>

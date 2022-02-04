@@ -22,6 +22,7 @@ const ReactKonva = ({ setCropDetails }) => {
   const [scrollValue, setScrollValue] = useState(0);
   const [minPos, setMinPos] = useState(false);
   const devRef = useRef();
+  const [selectedBoxes, setSelectedBoxes] = useState([]);
   return (
     <>
       <div>
@@ -101,13 +102,42 @@ const ReactKonva = ({ setCropDetails }) => {
                                 y={el.top / 5}
                                 width={(el.right - el.left) / 5}
                                 height={(el.bottom - el.top) / 5}
-                                stroke={el.color}
-                                strokeWidth={2}
+                                stroke={
+                                  selectedBoxes.filter(
+                                    (item) => item.id === el.id
+                                  ).length > 0
+                                    ? "#fff"
+                                    : el.color
+                                }
+                                strokeWidth={
+                                  selectedBoxes.filter(
+                                    (item) => item.id === el.id
+                                  ).length > 0
+                                    ? 3
+                                    : 2
+                                }
+                                // onPointerdown={() =>
+                                //   setCropDetails({
+                                //     photoID: el.photoID,
+                                //     id: el.id,
+                                //   })
+                                // }
                                 onPointerdown={() =>
-                                  setCropDetails({
-                                    photoID: el.photoID,
-                                    id: el.id,
-                                  })
+                                  selectedBoxes.filter(
+                                    (item) => item.id === el.id
+                                  ).length > 0
+                                    ? setSelectedBoxes(
+                                        selectedBoxes.filter(
+                                          (item) => item.id !== el.id
+                                        )
+                                      )
+                                    : setSelectedBoxes([
+                                        ...selectedBoxes,
+                                        {
+                                          photoID: el.photoID,
+                                          id: el.id,
+                                        },
+                                      ])
                                 }
                               />
                             </>
@@ -140,7 +170,6 @@ const ReactKonva = ({ setCropDetails }) => {
           ref={dargRef}
           bounds={{ left: 0, right: divRef.current?.clientWidth }}
           onDrag={(e) => {
-            console.log("dragging");
             divRef.current.scrollLeft =
               scrollValue / 2 + dargRef.current.state.x;
           }}

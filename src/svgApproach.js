@@ -20,6 +20,7 @@ const SvgApproach = ({ setCropDetails }) => {
   const [scrollValue, setScrollValue] = useState(0);
   const [minPos, setMinPos] = useState(false);
   console.log("images svg", images.length);
+  const [selectedBoxes, setSelectedBoxes] = useState([]);
   return (
     <>
       <div>
@@ -93,15 +94,35 @@ const SvgApproach = ({ setCropDetails }) => {
                             y={el.top / 5}
                             width={(el.right - el.left) / 5}
                             height={(el.bottom - el.top) / 5}
-                            stroke={el.color}
+                            stroke={
+                              selectedBoxes.filter((item) => item.id === el.id)
+                                .length > 0
+                                ? "#fff"
+                                : el.color
+                            }
                             style={{ cursor: "pointer" }}
                             fill="transparent"
-                            strokeWidth="2px"
+                            strokeWidth={
+                              selectedBoxes.filter((item) => item.id === el.id)
+                                .length > 0
+                                ? "3px"
+                                : "2px"
+                            }
                             onClick={() =>
-                              setCropDetails({
-                                photoID: el.photoID,
-                                id: el.id,
-                              })
+                              selectedBoxes.filter((item) => item.id === el.id)
+                                .length > 0
+                                ? setSelectedBoxes(
+                                    selectedBoxes.filter(
+                                      (item) => item.id !== el.id
+                                    )
+                                  )
+                                : setSelectedBoxes([
+                                    ...selectedBoxes,
+                                    {
+                                      photoID: el.photoID,
+                                      id: el.id,
+                                    },
+                                  ])
                             }
                           ></rect>
                         ))}
@@ -203,7 +224,6 @@ const SvgApproach = ({ setCropDetails }) => {
                   // zIndex: '999'
                 }}
               >
-                {console.log("images", images.length)}
                 {boxData
                   .filter((el) => el.photoID === img.id)
                   .map((el) => (
